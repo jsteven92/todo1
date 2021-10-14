@@ -52,18 +52,6 @@ public class InvoiceRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(invoiceDB);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
-
-        invoice.setId(id);
-        Invoice currentInvoice = invoiceService.updateInvoice(invoice);
-
-        if (currentInvoice == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(currentInvoice);
-    }
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Invoice> deleteInvoice(@PathVariable("id") long id) {
 

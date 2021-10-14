@@ -10,7 +10,6 @@ import todo1.sysiems.store.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,71 +22,58 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     InvoiceItemsRepository invoiceItemsRepository;
 
-    
     @Autowired
     ProductService productService;
 
     @Override
     public List<Invoice> findInvoiceAll() {
-        return  invoiceRepository.findAll();
+        return invoiceRepository.findAll();
     }
 
     @Override
     public Invoice createInvoice(Invoice invoice) {
-        Invoice invoiceDB = invoiceRepository.findByNumberInvoice ( invoice.getNumberInvoice () );
-        if (invoiceDB !=null){
-            return  invoiceDB;
+        Invoice invoiceDB = invoiceRepository.findByNumberInvoice(invoice.getNumberInvoice());
+        if (invoiceDB != null) {
+            return invoiceDB;
         }
         invoice.setState("CREATED");
         invoiceDB = invoiceRepository.save(invoice);
-        invoiceDB.getItems().forEach( invoiceItem -> {
+        invoiceDB.getItems().forEach(invoiceItem -> {
             productService.updateStock(invoiceItem.getProductId(), (int) (invoiceItem.getQuantity() * -1));
         });
 
         return invoiceDB;
     }
 
-
-    @Override
-    public Invoice updateInvoice(Invoice invoice) {
-        Invoice invoiceDB = getInvoice(invoice.getId());
-        if (invoiceDB == null){
-            return  null;
-        }
-    
-        invoiceDB.setDescription(invoice.getDescription());
-        invoiceDB.setNumberInvoice(invoice.getNumberInvoice());
-        invoiceDB.getItems().clear();
-        invoiceDB.setItems(invoice.getItems());
-        return invoiceRepository.save(invoiceDB);
-    }
-
-
     @Override
     public Invoice deleteInvoice(Invoice invoice) {
         Invoice invoiceDB = getInvoice(invoice.getId());
-        if (invoiceDB == null){
-            return  null;
+        if ( invoiceDB == null || !invoiceDB.getState().equals("CREATED") ) {
+            return null;
         }
+        
         invoiceDB.setState("DELETED");
+
+        invoiceDB.getItems().forEach(invoiceItem -> {
+            productService.updateStock(invoiceItem.getProductId(), (int) (invoiceItem.getQuantity()));
+        });
+
         return invoiceRepository.save(invoiceDB);
     }
 
     @Override
     public Invoice getInvoice(Long id) {
 
-        Invoice invoice= invoiceRepository.findById(id).orElse(null);
-        if (null != invoice ){
-            
-            List<InvoiceItem> listItem=invoice.getItems()
-                .stream()
-                .map(invoiceItem -> {
-                        Product product = productService.getProduct(invoiceItem.getProductId());
+        Invoice invoice = invoiceRepository.findById(id).orElse(null);
+        if (null != invoice) {
+
+            List<InvoiceItem> listItem = invoice.getItems().stream().map(invoiceItem -> {
+                Product product = productService.getProduct(invoiceItem.getProductId());
                 invoiceItem.setProduct(product);
                 return invoiceItem;
             }).collect(Collectors.toList());
             invoice.setItems(listItem);
         }
-        return invoice ;
+        return invoice;
     }
 }

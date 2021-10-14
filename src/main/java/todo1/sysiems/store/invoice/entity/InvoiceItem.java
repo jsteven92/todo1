@@ -5,17 +5,18 @@ import todo1.sysiems.store.product.entity.Product;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
+// import java.io.Serializable;
 
-@Entity
 @Data
+@Entity
 @Table(name = "invoce_items")
 public class InvoiceItem  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Positive(message = "El stock debe ser mayor que cero")
-    private Double quantity;
+    @Positive(message = "Price should has value longer cero")
+    private int quantity;
     private Double  price;
 
     @Column(name = "product_id")
@@ -36,7 +37,7 @@ public class InvoiceItem  {
         }
     }
     public InvoiceItem(){
-        this.quantity=(double) 0;
+        this.quantity=(int) 0;
         this.price=(double) 0;
 
     }

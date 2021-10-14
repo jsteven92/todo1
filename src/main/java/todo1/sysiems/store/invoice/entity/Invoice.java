@@ -4,15 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.List;
+// import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "invoices")
 public class Invoice {
 
-
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -21,7 +24,7 @@ public class Invoice {
 
     private String description;
 
-
+    @Valid
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "invoice_id")
