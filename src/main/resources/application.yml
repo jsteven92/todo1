@@ -1,0 +1,58 @@
+#Application Configuration
+server:
+  # contextPath:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# To See H2 Console in Browser:
+# http://localhost:8091/h2-console
+# Enabling H2 Console
+spring:
+  # jackson:
+  # serialization:
+  #   INDENT_OUTPUT: true
+
+  h2:
+    console:
+      enabled: true
+  # ===============================
+  # DB
+  # ===============================
+  datasource:
+    url: jdbc:h2:mem:hulkStore
+    # url: jdbc:h2:mem:hulkStore;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    # driverClassName: org.h2.Driver
+    # platform: h2
+    # username: sa
+    # password:
+    # initialization-mode: always
+
+  # ===============================
+  # JPA / HIBERNATE
+  # ===============================
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: false
+        format_sql: false
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
+jwt:
+  header: Authorization
+  secret: tasksSecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
