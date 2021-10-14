@@ -2,7 +2,6 @@ package todo1.sysiems.store.product.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import todo1.sysiems.store.product.repository.SuperHeroRepository;
 @RequiredArgsConstructor
 public class SuperHeroServiceImp implements SuperHeroService {
 
-    @Autowired
     private final SuperHeroRepository superHeroRep;
 
     @Override

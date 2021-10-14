@@ -1,5 +1,6 @@
 package todo1.sysiems.store.product.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import todo1.sysiems.store.helper.FormatMessage;
 import todo1.sysiems.store.product.entity.Product;
+import todo1.sysiems.store.product.entity.SuperHero;
 import todo1.sysiems.store.product.service.ProductService;
 
 @RestController
@@ -31,15 +33,25 @@ public class ProductController {
     private ProductService productService;
     private FormatMessage message = new FormatMessage();
 
+    /**I can search all products or only search for super hero type */
     @GetMapping
-    public ResponseEntity<List<Product>> listProduct() {
-        List<Product> products = productService.listAllProduct();
-
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<List<Product>> listProduct(@RequestParam(name = "superHeroId", required = false) Long superHeroId) {
+        
+        List<Product> products = new ArrayList<>();
+        if (null ==  superHeroId){
+             products = productService.listAllProduct();
+            if (products.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
+        }else{
+            products = productService.findBySuperHero(SuperHero.builder().id(superHeroId).build());
+            if (products.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
         }
-        return ResponseEntity.ok(products);
 
+
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping

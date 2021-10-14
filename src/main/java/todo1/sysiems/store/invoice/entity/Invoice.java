@@ -1,6 +1,9 @@
 package todo1.sysiems.store.invoice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +16,8 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "invoices")
+@Builder
+@AllArgsConstructor
 public class Invoice {
 
     @Id

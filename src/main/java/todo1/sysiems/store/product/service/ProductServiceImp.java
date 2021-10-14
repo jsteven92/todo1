@@ -2,7 +2,6 @@ package todo1.sysiems.store.product.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,8 @@ import todo1.sysiems.store.product.repository.ProductRepository;
 @RequiredArgsConstructor
 public class ProductServiceImp implements ProductService {
     
-    @Autowired
-    private ProductRepository productRep;
+    
+    private final ProductRepository productRep;
 
     @Override
     public List<Product> listAllProduct() {

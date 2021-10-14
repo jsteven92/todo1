@@ -10,17 +10,18 @@ import todo1.sysiems.store.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class InvoiceServiceImpl implements InvoiceService {
 
-    @Autowired
-    InvoiceRepository invoiceRepository;
+    public final InvoiceRepository invoiceRepository;
 
-    @Autowired
-    InvoiceItemsRepository invoiceItemsRepository;
+    public final InvoiceItemsRepository invoiceItemsRepository;
 
     @Autowired
     ProductService productService;

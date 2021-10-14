@@ -1,5 +1,7 @@
 package todo1.sysiems.store.invoice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import todo1.sysiems.store.product.entity.Product;
 
@@ -9,7 +11,9 @@ import javax.validation.constraints.Positive;
 
 @Data
 @Entity
-@Table(name = "invoce_items")
+@Table(name = "invoice_items")
+@Builder
+@AllArgsConstructor
 public class InvoiceItem  {
 
     @Id
