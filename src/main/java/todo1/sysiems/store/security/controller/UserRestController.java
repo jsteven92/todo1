@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class UserRestController {
 
     private FormatMessage message = new FormatMessage();
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
@@ -47,6 +49,7 @@ public class UserRestController {
         return user;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     @RequestMapping(value = "/user")
     public ResponseEntity<User> createProduct(@Valid @RequestBody User user, BindingResult result) {

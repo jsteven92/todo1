@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class ProductController {
     private FormatMessage message = new FormatMessage();
 
     /**I can search all products or only search for super hero type */
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public ResponseEntity<List<Product>> listProduct(@RequestParam(name = "superHeroId", required = false) Long superHeroId) {
         
@@ -54,9 +56,15 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     @RequestMapping(value = "/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
+        System.out.println("..");
+        System.out.println("..");
+        System.out.println("..");
+        System.out.println("..");
+        System.out.println("..");
         Product product = productService.getProduct(id);
 
         if (null == product) {
