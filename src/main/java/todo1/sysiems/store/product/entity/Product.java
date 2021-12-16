@@ -31,11 +31,10 @@ public class Product {
     private String name;
     @Positive(message = "Price should has value longer cero")
     private Double price;
-    @Positive(message = "Stock should has value longer cero")
+    @Positive(message = "Stock should has value longer cero.")
     private int stock;
 
     private String status;
-
     @NotNull(message = "Super hero type is required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "super_hero_id")
